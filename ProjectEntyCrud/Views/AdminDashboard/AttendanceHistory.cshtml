@@ -1,0 +1,203 @@
+﻿@model IEnumerable<ProjectEntyCrud.Models.AdminAttendanceHistoryViewModel>
+
+@{
+    ViewData["Title"] = "Attendance History";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary text-center">
+        Employee Attendance History
+    </h2>
+
+    <hr />
+
+    <!-- Search and Filter -->
+    <div class="card shadow p-4 mb-4">
+
+        <h4 class="text-primary">Search and Filter</h4>
+
+        <form asp-controller="AdminDashboard"
+              asp-action="AttendanceHistory"
+              method="get">
+
+            <div class="row">
+
+                <!-- Employee Search -->
+                <div class="col-md-4 mb-3">
+
+                    <label class="form-label">Search Employee</label>
+
+                    <input type="text"
+                           name="search"
+                           value="@ViewBag.Search"
+                           class="form-control"
+                           placeholder="Enter Employee ID, Name or Email" />
+
+                </div>
+
+                <!-- Department -->
+                <div class="col-md-3 mb-3">
+
+                    <label class="form-label">Department</label>
+
+                    <select name="dept"
+                            class="form-select"
+                            asp-items="ViewBag.Departments">
+
+                        <option value="">All Departments</option>
+
+                    </select>
+
+                </div>
+
+                <!-- Attendance Date -->
+                <div class="col-md-3 mb-3">
+
+                    <label class="form-label">Attendance Date</label>
+
+                    <input type="date"
+                           name="date"
+                           value="@(ViewBag.Date == null ? "" : ((DateTime)ViewBag.Date).ToString("yyyy-MM-dd"))"
+                           class="form-control" />
+
+                </div>
+
+                <!-- Search Button -->
+                <div class="col-md-2 mb-3 d-flex align-items-end">
+
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+                        Search
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- Clear Filters -->
+            <a asp-controller="AdminDashboard"
+               asp-action="AttendanceHistory"
+               class="btn btn-secondary">
+                Clear Filters
+            </a>
+
+        </form>
+
+    </div>
+
+    <!-- Attendance Records -->
+    <div class="card shadow p-3">
+
+        <h4 class="text-primary mb-3">
+            Attendance Records
+        </h4>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped table-hover">
+
+                <thead class="table-dark">
+
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Email</th>
+                        <th>Department ID</th>
+                        <th>Department Name</th>
+                        <th>Attendance Date</th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>@item.EmpID</td>
+
+                                <td>@item.EmpName</td>
+
+                                <td>@item.Email</td>
+
+                                <td>@item.d_id</td>
+
+                                <td>@item.d_name</td>
+
+                                <td>
+                                    @item.AttendanceDate.ToString("dd-MM-yyyy")
+                                </td>
+
+                                <td>
+                                    @(item.CheckIn?.ToString("hh:mm tt") ?? "Not Checked In")
+                                </td>
+
+                                <td>
+                                    @(item.CheckOut?.ToString("hh:mm tt") ?? "Not Checked Out")
+                                </td>
+
+                                <td>
+
+                                    @if (item.CheckIn != null && item.CheckOut != null)
+                                    {
+                                        <span class="badge bg-success">
+                                            Present
+                                        </span>
+                                    }
+                                    else if (item.CheckIn != null)
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            In Progress
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            Not Checked In
+                                        </span>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9"
+                                class="text-center text-danger p-3">
+
+                                No Attendance Records Found.
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Back Button -->
+        <div class="mt-3">
+
+            <a asp-controller="AdminDashboard"
+               asp-action="DashBoard"
+               class="btn btn-secondary">
+                Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

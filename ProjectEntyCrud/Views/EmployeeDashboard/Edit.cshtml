@@ -1,0 +1,100 @@
+﻿@model ProjectEntyCrud.Models.EmpRecords
+
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow p-4">
+
+        <h2 class="text-primary text-center">Edit My Records</h2>
+
+        <hr />
+
+        <form asp-controller="EmployeeDashboard"
+              asp-action="Edit"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="EmpId" />
+
+            <div asp-validation-summary="All"
+                 class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="EmpName">Employee Name</label>
+                <input asp-for="EmpName" class="form-control" />
+                <span asp-validation-for="EmpName"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Age">Age</label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Ph">Phone</label>
+                <input asp-for="Ph" class="form-control" />
+                <span asp-validation-for="Ph"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="d_id">Department</label>
+
+                <select asp-for="d_id" class="form-select">
+                    @foreach (var dept in ViewBag.Departments)
+                    {
+                        <option value="@dept.DID">
+                            @dept.DName
+                        </option>
+                    }
+                </select>
+
+                <span asp-validation-for="d_id"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Desigination">Designation</label>
+                <input asp-for="Desigination" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="JoiningDate">Joining Date</label>
+                <input asp-for="JoiningDate"
+                       type="date"
+                       class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Update
+            </button>
+
+            <a asp-controller="EmployeeDashboard"
+               asp-action="MyRecords"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

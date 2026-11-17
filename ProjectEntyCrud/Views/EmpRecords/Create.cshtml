@@ -1,0 +1,116 @@
+@model ProjectEntyCrud.Models.EmpRecords
+
+@{
+    ViewData["Title"] = "Create Employee";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary text-center">Create Employee</h2>
+    <h4>Employee Records</h4>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-5">
+
+            <div class="card shadow p-4">
+
+                <form asp-action="Create" method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="All"
+                         class="text-danger"></div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Age"></label>
+                        <input asp-for="Age"
+                               class="form-control"
+                               placeholder="Enter Age" />
+                        <span asp-validation-for="Age"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="EmpName"></label>
+                        <input asp-for="EmpName"
+                               class="form-control"
+                               placeholder="Enter Employee Name" />
+                        <span asp-validation-for="EmpName"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email"
+                               type="email"
+                               class="form-control"
+                               placeholder="Enter Email" />
+                        <span asp-validation-for="Email"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Ph"></label>
+                        <input asp-for="Ph"
+                               class="form-control"
+                               placeholder="Enter Phone Number" />
+                        <span asp-validation-for="Ph"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Department</label>
+
+                        <select asp-for="d_id"
+                                class="form-select"
+                                asp-items="ViewBag.Departments">
+                            <option value="">-- Select Department --</option>
+                        </select>
+
+                        <span asp-validation-for="d_id"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Desigination"></label>
+                        <input asp-for="Desigination"
+                               class="form-control"
+                               placeholder="Enter Designation" />
+                        <span asp-validation-for="Desigination"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="JoiningDate"></label>
+                        <input asp-for="JoiningDate"
+                               type="date"
+                               class="form-control" />
+                        <span asp-validation-for="JoiningDate"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Create
+                        </button>
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary">
+                            Back to List
+                        </a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

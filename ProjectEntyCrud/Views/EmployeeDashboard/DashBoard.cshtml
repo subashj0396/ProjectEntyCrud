@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Employee Dashboard";
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg p-4">
+
+        <!-- Dashboard Heading -->
+        <h2 class="text-primary text-center">
+            Employee Dashboard
+        </h2>
+
+        <hr />
+
+        <!-- Welcome Message -->
+        <h4 class="text-success">
+            Welcome, @ViewBag.EmpName!
+        </h4>
+
+        <!-- Employee Details -->
+        <div class="card bg-light mt-3 p-3">
+
+            <h4 class="text-primary">
+                Employee Details
+            </h4>
+
+            <p>
+                <strong>Employee ID:</strong>
+                @ViewBag.EmpId
+            </p>
+
+            <p>
+                <strong>Employee Name:</strong>
+                @ViewBag.EmpName
+            </p>
+
+            <p>
+                <strong>Department ID:</strong>
+                @ViewBag.DeptId
+            </p>
+
+            <p>
+                <strong>Department Name:</strong>
+                @ViewBag.DeptName
+            </p>
+
+        </div>
+
+        <hr />
+
+        <!-- Employee Activities -->
+        <h4 class="text-dark">
+            Employee Activities
+        </h4>
+
+        <div class="d-grid gap-3 mt-3">
+
+            <!-- My Records -->
+            <a asp-controller="EmployeeDashboard"
+               asp-action="MyRecords"
+               class="btn btn-primary">
+                My Records
+            </a>
+
+            <!-- Edit Records -->
+            <a asp-controller="EmployeeDashboard"
+               asp-action="Edit"
+               class="btn btn-warning">
+                Edit My Records
+            </a>
+
+            <!-- Monthly Attendance -->
+            <a asp-controller="EmployeeDashboard"
+               asp-action="MonthlyAttendance"
+               class="btn btn-info">
+                Monthly Attendance
+            </a>
+
+            <!-- Attendance Check In / Check Out -->
+            <a asp-controller="EmployeeAttendance"
+               asp-action="Index"
+               class="btn btn-success">
+                Attendance (Check In / Check Out)
+            </a>
+
+            <!-- Attendance History -->
+            <a asp-controller="EmployeeAttendance"
+               asp-action="History"
+               class="btn btn-secondary">
+                Attendance History
+            </a>
+
+            <!-- Logout -->
+            <a asp-controller="EmployeeDashboard"
+               asp-action="Logout"
+               class="btn btn-danger">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+</div>

@@ -1,0 +1,128 @@
+@model ProjectEntyCrud.Models.EmpRecords
+
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary">Edit Employee</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-5">
+
+            <div class="card shadow p-4">
+
+                <form asp-action="Edit" method="post">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger"></div>
+
+                    <input type="hidden" asp-for="EmpId" />
+
+                    <!-- Age -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Age"></label>
+                        <input asp-for="Age" class="form-control" />
+                        <span asp-validation-for="Age"
+                              class="text-danger"></span>
+                    </div>
+
+                    <!-- Employee Name -->
+                    <div class="form-group mb-3">
+                        <label asp-for="EmpName"></label>
+                        <input asp-for="EmpName" class="form-control" />
+                        <span asp-validation-for="EmpName"
+                              class="text-danger"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email"
+                              class="text-danger"></span>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Ph"></label>
+                        <input asp-for="Ph" class="form-control" />
+                        <span asp-validation-for="Ph"
+                              class="text-danger"></span>
+                    </div>
+
+                    <!-- Department ID and Name -->
+                    <div class="form-group mb-3">
+
+                        <label asp-for="d_id">Department</label>
+
+                        <select asp-for="d_id"
+                                class="form-select"
+                                asp-items="ViewBag.Departments">
+
+                            <option value="">-- Select Department --</option>
+
+                        </select>
+
+                        <span asp-validation-for="d_id"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- Department Name -->
+                    <div class="form-group mb-3">
+
+                        <label>Department Name</label>
+
+                        <input value="@Model.Department?.DName"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                    <!-- Designation -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Desigination"></label>
+                        <input asp-for="Desigination"
+                               class="form-control" />
+                        <span asp-validation-for="Desigination"
+                              class="text-danger"></span>
+                    </div>
+
+                    <!-- Joining Date -->
+                    <div class="form-group mb-3">
+                        <label asp-for="JoiningDate"></label>
+
+                        <input asp-for="JoiningDate"
+                               type="date"
+                               asp-format="{0:yyyy-MM-dd}"
+                               class="form-control" />
+
+                        <span asp-validation-for="JoiningDate"
+                              class="text-danger"></span>
+                    </div>
+
+                    <!-- Buttons -->
+                    <button type="submit" class="btn btn-primary">
+                        Save
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        Back to List
+                    </a>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

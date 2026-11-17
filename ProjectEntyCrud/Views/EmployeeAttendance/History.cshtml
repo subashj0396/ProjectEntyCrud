@@ -1,0 +1,147 @@
+﻿@model IEnumerable<ProjectEntyCrud.Models.AttendanceRecord>
+
+@{
+    ViewData["Title"] = "Attendance History";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary text-center">
+        Employee Attendance History
+    </h2>
+
+    <div class="card shadow p-4 mt-3">
+
+        <!-- Employee Details -->
+        <h5 class="text-success">Employee Details</h5>
+
+        <p>
+            <strong>Employee ID:</strong> @ViewBag.EmpId
+        </p>
+
+        <p>
+            <strong>Employee Name:</strong> @ViewBag.EmpName
+        </p>
+
+        <p>
+            <strong>Department ID:</strong> @ViewBag.DeptId
+        </p>
+
+        <p>
+            <strong>Department Name:</strong> @ViewBag.DeptName
+        </p>
+
+        <hr />
+
+        <!-- Attendance History -->
+        <h5 class="text-primary">Attendance Records</h5>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-striped table-hover mt-3">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Attendance Date</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @{
+                            int count = 1;
+                        }
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@count</td>
+
+                                <td>
+                                    @item.AttendanceDate.ToString("dd-MM-yyyy")
+                                </td>
+
+                                <td>
+                                    @if (item.CheckIn != null)
+                                    {
+                                        @item.CheckIn.Value.ToString("hh:mm:ss tt")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Not Checked In</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (item.CheckOut != null)
+                                    {
+                                        @item.CheckOut.Value.ToString("hh:mm:ss tt")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-warning">Not Checked Out</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (item.CheckIn != null && item.CheckOut != null)
+                                    {
+                                        <span class="badge bg-success">
+                                            Completed
+                                        </span>
+                                    }
+                                    else if (item.CheckIn != null)
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            In Progress
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            Absent
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+
+                            count++;
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning mt-3">
+                No attendance records found.
+            </div>
+        }
+
+        <hr />
+
+        <a asp-controller="EmployeeAttendance"
+           asp-action="Index"
+           class="btn btn-success">
+            Back to Attendance
+        </a>
+
+        <a asp-controller="EmployeeDashboard"
+           asp-action="DashBoard"
+           class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+
+</div>

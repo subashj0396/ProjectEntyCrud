@@ -1,0 +1,189 @@
+@model IEnumerable<ProjectEntyCrud.Models.EmpRecords>
+
+@{
+    ViewData["Title"] = "Employee Records";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary text-center">Employee Records</h2>
+    <hr />
+
+    <!-- Create Employee -->
+    <p>
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i>
+            Create New Employee
+        </a>
+    </p>
+
+    <!-- Search and Filter -->
+    <div class="card shadow p-4 mb-4">
+
+        <h4 class="text-primary">Search and Filter Employees</h4>
+
+        <form asp-controller="EmpRecords"
+              asp-action="Index"
+              method="get">
+
+            <div class="row">
+
+                <!-- Search -->
+                <div class="col-md-4 mb-3">
+                    <label>Search Employee</label>
+                    <input type="text"
+                           name="search"
+                           value="@ViewBag.Search"
+                           class="form-control"
+                           placeholder="Enter ID, Name or Email" />
+                </div>
+
+                <!-- Department -->
+                <div class="col-md-2 mb-3">
+                    <label>Department</label>
+
+                    <select name="dept"
+                            class="form-select"
+                            asp-items="ViewBag.Departments">
+                        <option value="">All Departments</option>
+                    </select>
+                </div>
+
+                <!-- Designation -->
+                <div class="col-md-2 mb-3">
+                    <label>Designation</label>
+
+                    <select name="desig" class="form-select">
+                        <option value="">All Designations</option>
+
+                        @foreach (var d in ViewBag.Designations)
+                        {
+                            <option value="@d"
+                                    selected="@(ViewBag.Desig?.ToString() == d.ToString())">
+                                @d
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Age -->
+                <div class="col-md-2 mb-3">
+                    <label>Age</label>
+
+                    <input type="number"
+                           name="age"
+                           value="@ViewBag.Age"
+                           class="form-control"
+                           placeholder="Enter Age" />
+                </div>
+
+                <!-- Search Button -->
+                <div class="col-md-2 mb-3 d-flex align-items-end">
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i>
+                        Search
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Clear Filters -->
+            <a asp-controller="EmpRecords"
+               asp-action="Index"
+               class="btn btn-secondary">
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Clear Filters
+            </a>
+
+        </form>
+    </div>
+
+    <!-- Employee List -->
+    <div class="card shadow p-3">
+
+        <h4 class="text-primary">Employee List</h4>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped table-hover">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Age</th>
+                        <th>Employee Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Department ID</th>
+                        <th>Department Name</th>
+                        <th>Designation</th>
+                        <th>Joining Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.EmpId</td>
+                                <td>@item.Age</td>
+                                <td>@item.EmpName</td>
+                                <td>@item.Email</td>
+                                <td>@item.Ph</td>
+
+                                <!-- Department ID -->
+                                <td>@item.d_id</td>
+
+                                <!-- Department Name -->
+                                <td>@item.Department?.DName</td>
+
+                                <td>@item.Desigination</td>
+
+                                <td>@item.JoiningDate.ToShortDateString()</td>
+
+                                <!-- Actions -->
+                                <td>
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.EmpId"
+                                       class="btn btn-warning btn-sm">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.EmpId"
+                                       class="btn btn-info btn-sm">
+                                        Details
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.EmpId"
+                                       class="btn btn-danger btn-sm">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="10"
+                                class="text-center text-danger">
+                                No Employee Records Found.
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>

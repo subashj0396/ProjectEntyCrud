@@ -1,0 +1,122 @@
+﻿@model ProjectEntyCrud.Models.AttendanceRecord
+
+@{
+    ViewData["Title"] = "Employee Attendance";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary text-center">
+        Employee Attendance
+    </h2>
+
+    <div class="card shadow p-4 mt-3">
+
+        <h5 class="text-success">Employee Details</h5>
+
+        <p>
+            <strong>Employee ID:</strong> @ViewBag.EmpId
+        </p>
+
+        <p>
+            <strong>Employee Name:</strong> @ViewBag.EmpName
+        </p>
+
+        <p>
+            <strong>Department ID:</strong> @ViewBag.DeptId
+        </p>
+
+        <p>
+            <strong>Department Name:</strong> @ViewBag.DeptName
+        </p>
+
+        <hr />
+
+        <h5>Today's Attendance</h5>
+
+        <p>
+            <strong>Date:</strong>
+            @DateTime.Today.ToString("dd-MM-yyyy")
+        </p>
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-info mt-3">
+                @TempData["Message"]
+            </div>
+        }
+
+        @if (Model == null)
+        {
+            <p class="text-danger">
+                You have not checked in today.
+            </p>
+
+            <form asp-controller="EmployeeAttendance"
+                  asp-action="CheckIn"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit" class="btn btn-success">
+                    Check In
+                </button>
+
+            </form>
+        }
+        else
+        {
+            <div class="alert alert-light">
+
+                <p>
+                    <strong>Check In:</strong>
+                    @Model.CheckIn?.ToString("hh:mm:ss tt")
+                </p>
+
+                @if (Model.CheckOut == null)
+                {
+                    <form asp-controller="EmployeeAttendance"
+                          asp-action="CheckOut"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="btn btn-danger">
+                            Check Out
+                        </button>
+
+                    </form>
+                }
+                else
+                {
+                    <p>
+                        <strong>Check Out:</strong>
+                        @Model.CheckOut?.ToString("hh:mm:ss tt")
+                    </p>
+
+                    <p class="text-success">
+                        Attendance Completed!
+                    </p>
+                }
+
+            </div>
+        }
+
+        <hr />
+
+        <a asp-controller="EmployeeAttendance"
+           asp-action="History"
+           class="btn btn-primary">
+            Attendance History
+        </a>
+
+        <a asp-controller="EmployeeDashboard"
+           asp-action="DashBoard"
+           class="btn btn-secondary mt-2">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+
+</div>

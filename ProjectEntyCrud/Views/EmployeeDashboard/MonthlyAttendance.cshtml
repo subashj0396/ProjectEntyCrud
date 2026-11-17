@@ -1,0 +1,145 @@
+﻿@{
+    ViewData["Title"] = "Monthly Attendance";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary text-center">
+        Monthly Attendance Report
+    </h2>
+
+    <hr />
+
+    <!-- Employee Information -->
+    <div class="card shadow p-4 mb-4">
+
+        <h4 class="text-primary">Employee Information</h4>
+
+        <dl class="row">
+
+            <dt class="col-sm-3">Employee ID</dt>
+            <dd class="col-sm-9">@Context.Session.GetInt32("EmpId")</dd>
+
+            <dt class="col-sm-3">Employee Name</dt>
+            <dd class="col-sm-9">@ViewBag.EmpName</dd>
+
+            <dt class="col-sm-3">Department ID</dt>
+            <dd class="col-sm-9">@ViewBag.DeptId</dd>
+
+            <dt class="col-sm-3">Department Name</dt>
+            <dd class="col-sm-9">@ViewBag.DeptName</dd>
+
+        </dl>
+
+    </div>
+
+    <!-- Month and Year Filter -->
+    <div class="card shadow p-4 mb-4">
+
+        <h4 class="text-primary">Select Month and Year</h4>
+
+        <form asp-action="MonthlyAttendance" method="get">
+
+            <div class="row">
+
+                <div class="col-md-5 mb-3">
+
+                    <label class="form-label">Month</label>
+
+                    <select name="month" class="form-select">
+
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i"
+                                    selected="@(ViewBag.Month == i)">
+                                @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-5 mb-3">
+
+                    <label class="form-label">Year</label>
+
+                    <input type="number"
+                           name="year"
+                           value="@ViewBag.Year"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-2 mb-3 d-flex align-items-end">
+
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+                        Search
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Attendance Summary -->
+    <div class="card shadow p-4">
+
+        <h4 class="text-primary">
+            Attendance Summary
+        </h4>
+
+        <p>
+            <strong>Month:</strong> @ViewBag.Month
+        </p>
+
+        <p>
+            <strong>Year:</strong> @ViewBag.Year
+        </p>
+
+        <div class="row text-center mt-3">
+
+            <div class="col-md-3 mb-3">
+                <div class="card bg-primary text-white p-3">
+                    <h5>Total Working Days</h5>
+                    <h3>@ViewBag.TotalWorkingDays</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card bg-success text-white p-3">
+                    <h5>Total Present</h5>
+                    <h3>@ViewBag.TotalPresent</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card bg-danger text-white p-3">
+                    <h5>Total Absent</h5>
+                    <h3>@ViewBag.TotalAbsent</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card bg-info text-white p-3">
+                    <h5>Attendance Percentage</h5>
+                    <h3>@ViewBag.AttendancePercentange%</h3>
+                </div>
+            </div>
+
+        </div>
+
+        <hr />
+
+        <a asp-action="DashBoard"
+           class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</div>

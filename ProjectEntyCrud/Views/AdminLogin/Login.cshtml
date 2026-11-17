@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Admin Login";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Admin Login</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-controller="AdminLogin"
+                          asp-action="Login"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label class="form-label">Admin Name</label>
+                            <input type="text"
+                                   name="aname"
+                                   class="form-control"
+                                   placeholder="Enter Admin Name"
+                                   required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+
+                            <div class="input-group">
+                                <input type="password"
+                                       name="password"
+                                       id="password"
+                                       class="form-control"
+                                       placeholder="Enter Password"
+                                       required />
+
+                                <button type="button"
+                                        class="btn btn-outline-secondary"
+                                        onclick="togglePassword()">
+                                    <span id="toggleText">Show</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-danger">
+                                @ViewBag.Message
+                            </div>
+                        }
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                Login
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <hr />
+
+                    <div class="text-center">
+                        Don't have an account?
+                        <a asp-controller="AdminRegister"
+                           asp-action="Register"
+                           class="text-decoration-none">
+                            Register Here
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePassword() {
+        var password = document.getElementById("password");
+        var toggleText = document.getElementById("toggleText");
+
+        if (password.type === "password") {
+            password.type = "text";
+            toggleText.innerHTML = "Hide";
+        }
+        else {
+            password.type = "password";
+            toggleText.innerHTML = "Show";
+        }
+    }
+</script>

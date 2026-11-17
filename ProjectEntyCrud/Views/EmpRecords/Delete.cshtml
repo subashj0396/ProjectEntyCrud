@@ -1,0 +1,87 @@
+@model ProjectEntyCrud.Models.EmpRecords
+
+@{
+    ViewData["Title"] = "Delete Employee";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-danger text-center">Delete Employee</h2>
+
+    <h5 class="text-center">
+        Are you sure you want to delete this employee?
+    </h5>
+
+    <hr />
+
+    <div class="card shadow p-4">
+
+        <dl class="row">
+
+            <!-- Employee ID -->
+            <dt class="col-sm-3">Employee ID</dt>
+            <dd class="col-sm-9">@Model.EmpId</dd>
+
+            <!-- Age -->
+            <dt class="col-sm-3">Age</dt>
+            <dd class="col-sm-9">@Model.Age</dd>
+
+            <!-- Employee Name -->
+            <dt class="col-sm-3">Employee Name</dt>
+            <dd class="col-sm-9">@Model.EmpName</dd>
+
+            <!-- Email -->
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <!-- Phone -->
+            <dt class="col-sm-3">Phone</dt>
+            <dd class="col-sm-9">@Model.Ph</dd>
+
+            <!-- Department ID -->
+            <dt class="col-sm-3">Department ID</dt>
+            <dd class="col-sm-9">@Model.d_id</dd>
+
+            <!-- Department Name -->
+            <dt class="col-sm-3">Department Name</dt>
+            <dd class="col-sm-9">
+                @(Model.Department?.DName ?? "Not Available")
+            </dd>
+
+            <!-- Designation -->
+            <dt class="col-sm-3">Designation</dt>
+            <dd class="col-sm-9">@Model.Desigination</dd>
+
+            <!-- Joining Date -->
+            <dt class="col-sm-3">Joining Date</dt>
+            <dd class="col-sm-9">
+                @Model.JoiningDate.ToString("dd-MM-yyyy")
+            </dd>
+
+        </dl>
+
+        <hr />
+
+        <!-- Delete Form -->
+        <form asp-action="Delete"
+              asp-route-id="@Model.EmpId"
+              method="post">
+
+            <input type="hidden" asp-for="EmpId" />
+
+            <button type="submit"
+                    class="btn btn-danger"
+                    onclick="return confirm('Are you sure you want to delete this employee?');">
+                Delete
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Back to List
+            </a>
+
+        </form>
+
+    </div>
+
+</div>

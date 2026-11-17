@@ -1,0 +1,64 @@
+﻿@model ProjectEntyCrud.Models.AdminLogin
+
+<h2>Admin Registration</h2>
+
+<form asp-controller="AdminRegister"
+      asp-action="Register"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <label>Admin Name</label>
+    <input asp-for="aname"
+           class="form-control"
+           required />
+
+    <br />
+
+    <label>Password</label>
+
+    <div class="input-group">
+        <input asp-for="password"
+               type="password"
+               id="password"
+               class="form-control"
+               required />
+
+        <button type="button"
+                class="btn btn-outline-secondary"
+                id="toggleBtn"
+                onclick="togglePassword()">
+            Show
+        </button>
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">
+        Register
+    </button>
+
+</form>
+
+<br />
+
+<a asp-controller="AdminLogin" asp-action="Login">
+    Already Registered? Login
+</a>
+
+<script>
+    function togglePassword() {
+
+        var passwordInput = document.getElementById("password");
+        var toggleBtn = document.getElementById("toggleBtn");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleBtn.innerText = "Hide";
+        }
+        else {
+            passwordInput.type = "password";
+            toggleBtn.innerText = "Show";
+        }
+    }
+</script>

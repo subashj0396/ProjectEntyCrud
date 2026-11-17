@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Employee Login";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="card shadow p-4">
+
+                <h2 class="text-primary text-center">
+                    Employee Login
+                </h2>
+
+                <hr />
+
+                <form asp-action="Login" method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <!-- Employee ID -->
+                    <div class="form-group mb-3">
+
+                        <label>Employee ID</label>
+
+                        <input type="number"
+                               name="id"
+                               class="form-control"
+                               placeholder="Enter Employee ID"
+                               required />
+
+                    </div>
+
+                    <!-- Department ID -->
+                    <div class="form-group mb-3">
+
+                        <label>Department ID</label>
+
+                        <input type="number"
+                               name="deptId"
+                               class="form-control"
+                               placeholder="Enter Department ID"
+                               required />
+
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group mb-3">
+
+                        <label>Password</label>
+
+                        <div class="input-group">
+
+                            <input type="password"
+                                   name="password"
+                                   id="password"
+                                   class="form-control"
+                                   placeholder="Enter Password"
+                                   required />
+
+                            <button type="button"
+                                    class="btn btn-outline-secondary"
+                                    onclick="togglePassword('password','showPassword')">
+                                <span id="showPassword">Show</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group mb-3">
+
+                        <label>Confirm Password</label>
+
+                        <div class="input-group">
+
+                            <input type="password"
+                                   name="confirmpwd"
+                                   id="confirmpwd"
+                                   class="form-control"
+                                   placeholder="Confirm Password" />
+
+                            <button type="button"
+                                    class="btn btn-outline-secondary"
+                                    onclick="togglePassword('confirmpwd','showConfirmPassword')">
+                                <span id="showConfirmPassword">Show</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Error Message -->
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="text-danger mb-3">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <!-- Login Button -->
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+                        Login
+                    </button>
+
+                    <div class="text-center mt-3">
+
+                        <a asp-action="Register">
+                            Create Password
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function togglePassword(inputId, textId) {
+
+        var password = document.getElementById(inputId);
+        var toggleText = document.getElementById(textId);
+
+        if (password.type === "password") {
+
+            password.type = "text";
+            toggleText.innerHTML = "Hide";
+
+        }
+        else {
+
+            password.type = "password";
+            toggleText.innerHTML = "Show";
+
+        }
+
+    }
+
+</script>

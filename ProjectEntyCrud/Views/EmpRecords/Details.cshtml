@@ -1,0 +1,79 @@
+@model ProjectEntyCrud.Models.EmpRecords
+
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary text-center">Employee Details</h2>
+
+    <hr />
+
+    <div class="card shadow p-4">
+
+        <dl class="row">
+
+            <!-- Employee ID -->
+            <dt class="col-sm-3">Employee ID</dt>
+            <dd class="col-sm-9">@Model.EmpId</dd>
+
+            <!-- Age -->
+            <dt class="col-sm-3">Age</dt>
+            <dd class="col-sm-9">@Model.Age</dd>
+
+            <!-- Employee Name -->
+            <dt class="col-sm-3">Employee Name</dt>
+            <dd class="col-sm-9">@Model.EmpName</dd>
+
+            <!-- Email -->
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <!-- Phone -->
+            <dt class="col-sm-3">Phone</dt>
+            <dd class="col-sm-9">@Model.Ph</dd>
+
+            <!-- Department ID -->
+            <dt class="col-sm-3">Department ID</dt>
+            <dd class="col-sm-9">@Model.d_id</dd>
+
+            <!-- Department Name -->
+            <dt class="col-sm-3">Department Name</dt>
+            <dd class="col-sm-9">
+                @(Model.Department?.DName ?? "Not Available")
+            </dd>
+
+            <!-- Designation -->
+            <dt class="col-sm-3">Designation</dt>
+            <dd class="col-sm-9">@Model.Desigination</dd>
+
+            <!-- Joining Date -->
+            <dt class="col-sm-3">Joining Date</dt>
+            <dd class="col-sm-9">
+                @Model.JoiningDate.ToString("dd-MM-yyyy")
+            </dd>
+
+        </dl>
+
+        <hr />
+
+        <!-- Buttons -->
+        <div class="mt-2">
+
+            <a asp-action="Edit"
+               asp-route-id="@Model.EmpId"
+               class="btn btn-warning">
+                Edit
+            </a>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Back to List
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,314 @@
+﻿@using ProjectEntyCrud.Models
+@model IEnumerable<AttendanceRecord>
+
+@{
+    ViewData["Title"] = "Monthly Attendance Report";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary text-center">
+        Monthly Attendance Report
+    </h2>
+
+    <hr />
+
+    <!-- Search and Filter -->
+    <div class="card shadow p-4 mb-4">
+
+        <h4 class="text-primary">Search Employees</h4>
+
+        <form asp-action="MonthlyReport" method="get">
+
+            <div class="row">
+
+                <!-- Employee Search -->
+                <div class="col-md-3 mb-3">
+                    <label>Search Employee</label>
+
+                    <input type="text"
+                           name="search"
+                           value="@ViewBag.Search"
+                           class="form-control"
+                           placeholder="ID, Name or Email" />
+                </div>
+
+                <!-- Department -->
+                <div class="col-md-3 mb-3">
+                    <label>Department</label>
+
+                    <select name="dept" class="form-select">
+
+                        <option value="">All Departments</option>
+
+                        @foreach (var d in ViewBag.Departments)
+                        {
+                            <option value="@d.DID"
+                                    selected="@(ViewBag.Dept?.ToString() == d.DID.ToString())">
+                                @d.DName
+                            </option>
+                        }
+
+                    </select>
+                </div>
+
+                <!-- Month -->
+                <div class="col-md-2 mb-3">
+                    <label>Month</label>
+
+                    <select name="month" class="form-select">
+
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i"
+                                    selected="@(ViewBag.Month == i)">
+                                @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)
+                            </option>
+                        }
+
+                    </select>
+                </div>
+
+                <!-- Year -->
+                <div class="col-md-2 mb-3">
+                    <label>Year</label>
+
+                    <input type="number"
+                           name="year"
+                           value="@ViewBag.Year"
+                           class="form-control" />
+                </div>
+
+                <!-- Search Button -->
+                <div class="col-md-2 mb-3 d-flex align-items-end">
+
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+                        Search
+                    </button>
+
+                </div>
+
+            </div>
+
+            <a asp-action="MonthlyReport"
+               class="btn btn-secondary">
+                Clear Filters
+            </a>
+
+        </form>
+
+    </div>
+
+    <!-- Employee List -->
+    <div class="card shadow p-4 mb-4">
+
+        <h4 class="text-primary">Employee List</h4>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Email</th>
+                        <th>Department ID</th>
+                        <th>Department Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (ViewBag.Employees != null && ViewBag.Employees.Count > 0)
+                    {
+                        @foreach (var emp in ViewBag.Employees)
+                        {
+                            <tr>
+                                <td>@emp.EmpId</td>
+                                <td>@emp.EmpName</td>
+                                <td>@emp.Email</td>
+                                <td>@emp.d_id</td>
+                                <td>@emp.Department?.DName</td>
+
+                                <td>
+                                    <a asp-action="MonthlyReport"
+                                       asp-route-empId="@emp.EmpId"
+                                       asp-route-month="@ViewBag.Month"
+                                       asp-route-year="@ViewBag.Year"
+                                       class="btn btn-info btn-sm">
+                                        View Report
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6"
+                                class="text-center text-danger">
+                                No Employees Found.
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+    <!-- Selected Employee Details -->
+    @if (ViewBag.EmpId != null)
+    {
+        <div class="card shadow p-4 mb-4">
+
+            <h4 class="text-primary">Employee Details</h4>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <p>
+                        <strong>Employee ID:</strong>
+                        @ViewBag.EmpId
+                    </p>
+
+                    <p>
+                        <strong>Employee Name:</strong>
+                        @ViewBag.EmpName
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        @ViewBag.Email
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <p>
+                        <strong>Department ID:</strong>
+                        @ViewBag.DeptId
+                    </p>
+
+                    <p>
+                        <strong>Department Name:</strong>
+                        @ViewBag.DeptName
+                    </p>
+
+                    <p>
+                        <strong>Month:</strong>
+                        @ViewBag.Month
+                    </p>
+
+                    <p>
+                        <strong>Year:</strong>
+                        @ViewBag.Year
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Attendance Summary -->
+        <div class="row mb-4">
+
+            <div class="col-md-4 mb-3">
+                <div class="card bg-primary text-white shadow p-3">
+                    <h5>Total Days</h5>
+                    <h2>@ViewBag.TotalDays</h2>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card bg-success text-white shadow p-3">
+                    <h5>Total Present</h5>
+                    <h2>@ViewBag.TotalPresent</h2>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card bg-danger text-white shadow p-3">
+                    <h5>Total Absent</h5>
+                    <h2>@ViewBag.TotalAbsent</h2>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Attendance Records -->
+        <div class="card shadow p-4">
+
+            <h4 class="text-primary">Attendance Details</h4>
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-striped">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (ViewBag.Attendance != null && ViewBag.Attendance.Count > 0)
+                        {
+                            @foreach (var item in ViewBag.Attendance)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @item.AttendanceDate.ToShortDateString()
+                                    </td>
+
+                                    <td>
+                                        @(item.CheckIn?.ToString("hh:mm tt") ?? "Not Checked In")
+                                    </td>
+
+                                    <td>
+                                        @(item.CheckOut?.ToString("hh:mm tt") ?? "Not Checked Out")
+                                    </td>
+
+                                    <td>
+                                        @if (item.CheckIn != null && item.CheckOut != null)
+                                        {
+                                            <span class="badge bg-success">Present</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning text-dark">Incomplete</span>
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4"
+                                    class="text-center text-danger">
+                                    No Attendance Records Found.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    }
+
+</div>
